@@ -2,8 +2,9 @@
    SOUND MODULE
    Lightweight 8-bit style sound effects and background chiptune
    loop, synthesized live with the Web Audio API so there are no
-   external audio files to load. Everything respects the user's
-   settings toggles.
+   external audio files to load. Sound effects and background
+   music are independent toggles, each respects only its own
+   setting.
    ============================================================ */
 
 let audioCtx = null;
@@ -92,9 +93,6 @@ function startMusic() {
   const settings = getSettings();
   if (!settings.backgroundMusic) return;
   musicStep = 0;
-  // Play the first note immediately, synchronously within the
-  // calling click handler, so the browser's autoplay policy
-  // treats it as tied to the user gesture that turned music on.
   playMusicStep();
   musicInterval = setInterval(playMusicStep, 220);
 }
@@ -121,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target) sfxClick();
   });
 
-  // Unlock audio context on first user interaction (required by browsers)
   const unlock = () => {
     getAudioCtx();
     const settings = getSettings();

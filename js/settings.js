@@ -1,8 +1,8 @@
 /* ============================================================
    SETTINGS PAGE LOGIC
    Lets the user change temperature unit, theme, tag style
-   wording, toggle sound effects and background music, and see
-   the sprite gallery used for companions.
+   wording, toggle sound effects and background music, see the
+   sprite gallery, and connect/disconnect Spotify.
    ============================================================ */
 
 const SPRITE_GALLERY = [
@@ -82,10 +82,19 @@ document.getElementById('musicToggle').addEventListener('click', () => {
   showToast(settings.backgroundMusic ? 'Background music on' : 'Background music off');
 });
 
+function renderSpriteGallery() {
+  const gallery = document.getElementById('spriteGallery');
+  gallery.innerHTML = SPRITE_GALLERY.map(s => `
+    <div class="identity-option" style="cursor:default;">
+      <img src="assets/sprites/${s}" alt="${s}">
+    </div>
+  `).join('');
+}
+
 /* ---------------- SPOTIFY ---------------- */
 /* This page only handles connect/disconnect. Search, playlists,
-   and playback controls live in the floating mini player bar
-   that spotify-player.js injects into every page. */
+   and playback controls live in the floating widget that
+   spotify-player.js injects into every page. */
 function refreshSpotifyConnectionUI() {
   const connected = isSpotifyConnected();
   document.getElementById('spotifyConnectRow').style.display = connected ? 'none' : 'flex';
@@ -107,18 +116,8 @@ document.getElementById('spotifyDisconnectBtn').addEventListener('click', () => 
   }
 });
 
-document.addEventListener('DOMContentLoaded', refreshSpotifyConnectionUI);
-
-function renderSpriteGallery() {
-  const gallery = document.getElementById('spriteGallery');
-  gallery.innerHTML = SPRITE_GALLERY.map(s => `
-    <div class="identity-option" style="cursor:default;">
-      <img src="assets/sprites/${s}" alt="${s}">
-    </div>
-  `).join('');
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   refreshSettingsUI();
   renderSpriteGallery();
+  refreshSpotifyConnectionUI();
 });

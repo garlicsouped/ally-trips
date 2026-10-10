@@ -39,10 +39,6 @@ function broadcastNowPlaying() {
   });
 }
 
-/* Listen for remote control commands sent from the small widget
-   on the main site's pages (play/pause/next/prev/volume/play a
-   specific uri found via search there, though search also works
-   directly in this window). */
 syncChannel.addEventListener('message', (event) => {
   const msg = event.data;
   if (!msg || !msg.type) return;
@@ -61,8 +57,6 @@ syncChannel.addEventListener('message', (event) => {
   }
 });
 
-// Periodic heartbeat so the main site widget knows this window
-// is alive and can show "connected" vs "open player" state.
 setInterval(broadcastNowPlaying, 2000);
 
 /* ---------------- WEB PLAYBACK SDK ---------------- */
@@ -335,9 +329,6 @@ if (!isSpotifyConnected()) {
   spotifyPlaylistsLoaded = true;
 }
 
-// Keep broadcasting even if nothing has started playing yet, so
-// the main site widget can tell the difference between "this
-// window isn't open" and "it's open but idle".
 window.addEventListener('beforeunload', () => {
   syncChannel.postMessage({ type: 'closing' });
 });

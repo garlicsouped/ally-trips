@@ -1,7 +1,8 @@
 /* ============================================================
    COMMON UTILITIES
    Shared across all pages: toast, settings application (theme),
-   mascot walk cycle animation swap, and small date helpers.
+   mascot walk cycle animation swap, small date helpers, the
+   companion avatar renderer, and the link/TikTok embed helper.
    ============================================================ */
 
 function showToast(message) {
@@ -45,7 +46,7 @@ function initMascotWalkCycle() {
 
 /* ============================================================
    COMPANION AVATAR HELPER
-   Companions can have 3 avatar types now:
+   Companions can have 3 avatar types:
    - sprite: one of the pre-made pixel art characters
    - photo:  a photo the user uploaded, stored as a data URL
    - emoji:  any single emoji picked by the user
@@ -63,24 +64,39 @@ function companionAvatarHTML(c, sizeClass) {
   return `<img src="assets/sprites/${spriteFile}" class="${sizeClass}" alt="${c.name}" title="${c.name}">`;
 }
 
+function daysUntil(dateStr) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(dateStr);
+  const diffMs = target - today;
+  return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+}
+
+function formatDateRange(start, end) {
+  const opts = { month: 'short', day: 'numeric' };
+  const s = new Date(start).toLocaleDateString('en-GB', opts);
+  const e = new Date(end).toLocaleDateString('en-GB', opts);
+  return `${s} - ${e}`;
+}
+
+function formatDateRangeFull(start, end) {
+  const opts = { month: 'short', day: 'numeric', year: 'numeric' };
+  const s = new Date(start).toLocaleDateString('en-GB', opts);
+  const e = new Date(end).toLocaleDateString('en-GB', opts);
+  return `${s} - ${e}`;
+}
+
 /* ============================================================
    LINK / TIKTOK EMBED HELPER
    Detects TikTok links and renders them as a playable embed
-   using TikTok's official blockquote embed format. Any other
-   link renders as a plain clickable URL. Since embed.js only
-   scans the page once on load, we re-append a fresh script tag
-   after adding new embeds so it picks up the new blockquotes.
+   using TikTok's direct iframe player, which renders immediately
+   on insertion with no script re-scan step needed. Any other
+   link renders as a plain clickable URL.
    ============================================================ */
 function isTikTokLink(url) {
   return /tiktok\.com/i.test(url);
 }
 
-/* Canonical TikTok video links look like
-   https://www.tiktok.com/@username/video/1234567890123456789
-   TikTok's embed only renders reliably when the blockquote
-   already carries the numeric data-video-id, so we pull it
-   straight out of the URL instead of depending on TikTok's
-   oEmbed lookup to resolve it for us. */
 function extractTikTokVideoId(url) {
   const match = url.match(/video\/(\d+)/);
   return match ? match[1] : null;
@@ -97,9 +113,6 @@ function renderItemLinkHTML(url) {
     const videoId = extractTikTokVideoId(url);
 
     if (videoId) {
-      // The iframe-based embed player renders immediately on
-      // insertion, no script re-scan needed, which is what makes
-      // this reliable even when items are re-rendered often.
       return `
         <div class="item-tiktok-embed">
           <iframe
@@ -115,10 +128,6 @@ function renderItemLinkHTML(url) {
     }
 
     if (isTikTokShortLink(url)) {
-      // Short links (vt.tiktok.com / vm.tiktok.com) don't carry
-      // the video id directly, so there's nothing to embed with
-      // client-side alone, link out instead of showing a broken
-      // "video unavailable" card.
       return `<a href="${url}" target="_blank" rel="noopener" class="item-link-plain">🎵 Open TikTok video (tap to watch). For it to play inline here, open the video on TikTok and paste the full link from the address bar instead of a shared short link.</a>`;
     }
   }
@@ -147,28 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', () => overlay.classList.remove('show'));
   }
 });
-
-function daysUntil(dateStr) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const target = new Date(dateStr);
-  const diffMs = target - today;
-  return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-}
-
-function formatDateRange(start, end) {
-  const opts = { month: 'short', day: 'numeric' };
-  const s = new Date(start).toLocaleDateString('en-GB', opts);
-  const e = new Date(end).toLocaleDateString('en-GB', opts);
-  return `${s} - ${e}`;
-}
-
-function formatDateRangeFull(start, end) {
-  const opts = { month: 'short', day: 'numeric', year: 'numeric' };
-  const s = new Date(start).toLocaleDateString('en-GB', opts);
-  const e = new Date(end).toLocaleDateString('en-GB', opts);
-  return `${s} - ${e}`;
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme();

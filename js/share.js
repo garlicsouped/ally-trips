@@ -5,7 +5,9 @@
    self adding allowed. Once a name is picked, edits made in
    this session are tagged with that name for the audit trail.
    Owner only actions (edit trip details, mark completed,
-   generate share link, add companion) are hidden here.
+   generate share link, add companion) are hidden here, but
+   adding days, itinerary items, and flights works the same way
+   it does for the owner.
    ============================================================ */
 
 const shareParams = new URLSearchParams(window.location.search);
@@ -303,58 +305,132 @@ let activeDayForModal = null;
 function renderDays() {
   const dayList = document.getElementById('dayList');
   dayList.innerHTML = '';
+
+  // Same fix as the owner view: always offer a way to add a day,
+  // since a trip can start with an empty itinerary.
+  const addDayBtn = document.createElement('button');
+  addDayBtn.className = 'add-flight-btn';
+  addDayBtn.style.marginBottom = '16px';
+  addDayBtn.textContent = '+ ADD DAY TO ITINERARY';
+  addDayBtn.addEventListener('click', () => openDayModal());
+  dayList.appendChild(addDayBtn);
+
   if (!currentTrip.days || currentTrip.days.length === 0) {
-    dayList.innerHTML = '<p>No itinerary days yet.</p>';
+    const emptyMsg = document.createElement('p');
+    emptyMsg.textContent = 'No itinerary days yet. Click "Add Day to Itinerary" above to start planning.';
+    dayList.appendChild(emptyMsg);
     return;
   }
 
-  currentTrip.days.forEach((day, dayIndex) => {
-    const block = document.createElement('div');
-    block.className = 'day-block';
-    if (dayIndex === 0) block.classList.add('open');
+  currentTrip.days
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .forEach((day) => {
+      const dayIndex = currentTrip.days.indexOf(day);
+      const block = document.createElement('div');
+      block.className = 'day-block';
+      if (dayIndex === 0) block.classList.add('open');
 
-    const doneCount = day.items.filter(i => i.done).length;
-    const totalCount = day.items.length;
+      const doneCount = day.items.filter(i => i.done).length;
+      const totalCount = day.items.length;
 
-    const header = document.createElement('div');
-    header.className = 'day-header';
-    header.innerHTML = `
-      <div class="day-title">DAY ${dayIndex + 1} - ${formatDateLong(day.date).toUpperCase()}</div>
-      <div class="weather-chip">
-        <img src="${weatherIcon(day.weather.icon)}" alt="weather">
-        <span>${day.weather.summary}, ${formatTemp(day.weather.tempLowC)}-${formatTemp(day.weather.tempHighC)}</span>
-      </div>
-      <div class="day-progress-chip">${doneCount} / ${totalCount} done</div>
-      <span class="day-toggle-icon">&#9654;</span>
-    `;
-    header.addEventListener('click', () => block.classList.toggle('open'));
+      const header = document.createElement('div');
+      header.className = 'day-header';
+      header.innerHTML = `
+        <div class="day-title">${formatDateLong(day.date).toUpperCase()}</div>
+        <div class="weather-chip">
+          <img src="${weatherIcon(day.weather.icon)}" alt="weather">
+          <span>${day.weather.summary}, ${formatTemp(day.weather.tempLowC)}-${formatTemp(day.weather.tempHighC)}</span>
+        </div>
+        <div class="day-progress-chip">${doneCount} / ${totalCount} done</div>
+        <button class="item-edit-btn" data-remove-day="${dayIndex}" style="margin:0;" title="Remove this day">🗑️</button>
+        <span class="day-toggle-icon">&#9654;</span>
+      `;
+      header.addEventListener('click', (e) => {
+        if (e.target.closest('[data-remove-day]')) return;
+        block.classList.toggle('open');
+      });
 
-    const itemsWrap = document.createElement('div');
-    itemsWrap.className = 'day-items';
-    const itemsContainer = document.createElement('div');
-    itemsContainer.className = 'items-container';
+      const itemsWrap = document.createElement('div');
+      itemsWrap.className = 'day-items';
+      const itemsContainer = document.createElement('div');
+      itemsContainer.className = 'items-container';
 
-    day.items.slice().sort((a, b) => a.time.localeCompare(b.time)).forEach(item => {
-      itemsContainer.appendChild(renderItem(item, dayIndex));
+      day.items.slice().sort((a, b) => a.time.localeCompare(b.time)).forEach(item => {
+        itemsContainer.appendChild(renderItem(item, dayIndex));
+      });
+
+      itemsWrap.appendChild(itemsContainer);
+
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-item-btn';
+      addBtn.textContent = '+ ADD ITEM TO THIS DAY';
+      addBtn.addEventListener('click', (e) => { e.stopPropagation(); openItemModal(dayIndex); });
+      itemsWrap.appendChild(addBtn);
+
+      block.appendChild(header);
+      block.appendChild(itemsWrap);
+      dayList.appendChild(block);
+
+      enableDragReorder(itemsContainer);
     });
 
-    itemsWrap.appendChild(itemsContainer);
-
-    const addBtn = document.createElement('button');
-    addBtn.className = 'add-item-btn';
-    addBtn.textContent = '+ ADD ITEM TO THIS DAY';
-    addBtn.addEventListener('click', (e) => { e.stopPropagation(); openItemModal(dayIndex); });
-    itemsWrap.appendChild(addBtn);
-
-    block.appendChild(header);
-    block.appendChild(itemsWrap);
-    dayList.appendChild(block);
-
-    enableDragReorder(itemsContainer);
+  dayList.querySelectorAll('[data-remove-day]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.removeDay, 10);
+      const removedDate = currentTrip.days[idx] ? currentTrip.days[idx].date : '';
+      currentTrip.days.splice(idx, 1);
+      persistTrip();
+      showToast(removedDate ? `Removed ${formatDateLong(removedDate)}` : 'Day removed');
+      renderDays();
+    });
   });
 
   reloadTikTokEmbeds();
 }
+
+/* ---------------- ADD DAY MODAL ---------------- */
+function openDayModal() {
+  document.getElementById('dayDateInput').value = '';
+  document.getElementById('dayWeatherIcon').value = 'sun';
+  document.getElementById('dayModal').classList.add('show');
+}
+
+document.getElementById('cancelDayBtn').addEventListener('click', () => {
+  document.getElementById('dayModal').classList.remove('show');
+});
+
+document.getElementById('saveDayBtn').addEventListener('click', () => {
+  const date = document.getElementById('dayDateInput').value;
+  const icon = document.getElementById('dayWeatherIcon').value;
+
+  if (!date) {
+    showToast('Pick a date for this day');
+    sfxError();
+    return;
+  }
+
+  if (!currentTrip.days) currentTrip.days = [];
+
+  const alreadyExists = currentTrip.days.some(d => d.date === date);
+  if (alreadyExists) {
+    showToast('That date is already in the itinerary');
+    sfxError();
+    return;
+  }
+
+  currentTrip.days.push({
+    date: date,
+    weather: { icon: icon, tempHighC: 25, tempLowC: 18, summary: 'Forecast not available yet' },
+    items: []
+  });
+
+  persistTrip();
+  document.getElementById('dayModal').classList.remove('show');
+  showToast('Day added to the itinerary');
+  renderDays();
+});
 
 function renderItem(item, dayIndex) {
   const el = document.createElement('div');

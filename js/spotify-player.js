@@ -80,9 +80,6 @@ function ensureMiniPlayerBarExists() {
 
 /* ---------------- OPEN / FOCUS THE PERSISTENT PLAYER WINDOW ---------------- */
 function openOrFocusPlayerWindow() {
-  // Using the same window name every time means if the player is
-  // already open (even from a page you've since navigated away
-  // from), this just focuses it instead of opening a duplicate.
   const win = window.open(
     'spotify-player-window.html',
     SPOTIFY_CONFIG.playerWindowName,
@@ -118,12 +115,8 @@ function initSpotifySync() {
     }
   });
 
-  // Ask immediately in case the player window is already open
-  // from before this page loaded.
   requestNowPlayingUpdate();
 
-  // Periodically check whether we've heard from the player
-  // window recently; if not, treat it as closed/not open.
   spotifyWidgetHeartbeatCheckId = setInterval(() => {
     const silent = Date.now() - spotifyWidgetLastHeartbeat > 5000;
     if (silent) updateConnectionStatus(false);

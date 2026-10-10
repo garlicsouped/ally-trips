@@ -115,6 +115,25 @@
   </div>
 </div>
 
+<!-- Add Day Modal -->
+<div class="modal-overlay" id="dayModal">
+  <div class="modal-box">
+    <h3>ADD DAY TO ITINERARY</h3>
+    <label>Date</label>
+    <input type="date" id="dayDateInput">
+    <label>Expected Weather (placeholder until live forecast is connected)</label>
+    <select id="dayWeatherIcon">
+      <option value="sun">Sunny</option>
+      <option value="cloud">Cloudy</option>
+      <option value="rain">Rainy</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn" id="cancelDayBtn">CANCEL</button>
+      <button class="btn primary" id="saveDayBtn">ADD DAY</button>
+    </div>
+  </div>
+</div>
+
 <script src="js/data.js"></script>
 <script src="js/common.js"></script>
 <script src="js/sound.js"></script>

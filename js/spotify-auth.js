@@ -45,7 +45,6 @@ function getSpotifyToken() {
 }
 
 function getSpotifyTokenRaw() {
-  // Returns the stored token even if expired, used for refresh.
   const raw = localStorage.getItem(SPOTIFY_TOKEN_KEY);
   if (!raw) return null;
   try {
@@ -59,18 +58,13 @@ function saveSpotifyToken(tokenResponse) {
   const stored = {
     accessToken: tokenResponse.access_token,
     refreshToken: tokenResponse.refresh_token || (getSpotifyTokenRaw() || {}).refreshToken,
-    expiresAt: Date.now() + (tokenResponse.expires_in * 1000) - 30000, // refresh 30s early
+    expiresAt: Date.now() + (tokenResponse.expires_in * 1000) - 30000,
     grantedScopes: tokenResponse.scope || (getSpotifyTokenRaw() || {}).grantedScopes || ''
   };
   localStorage.setItem(SPOTIFY_TOKEN_KEY, JSON.stringify(stored));
   return stored;
 }
 
-/* Lets the app check whether the currently stored connection
-   actually granted a given scope, e.g. playlist access. If an
-   older connection predates a scope being added to the app, the
-   UI can prompt a one-time reconnect instead of silently
-   failing with a confusing 403. */
 function spotifyHasScope(scope) {
   const stored = getSpotifyTokenRaw();
   if (!stored || !stored.grantedScopes) return false;
@@ -176,8 +170,7 @@ async function spotifyRefreshToken() {
   }
 }
 
-/* Returns a valid access token, refreshing first if needed.
-   Use this everywhere instead of reading storage directly. */
+/* Returns a valid access token, refreshing first if needed. */
 async function spotifyGetValidAccessToken() {
   let token = getSpotifyToken();
   if (token) return token.accessToken;

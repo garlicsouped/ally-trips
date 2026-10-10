@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ally Trips - Settings</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1 class="pixel-font">ALLY TRIPS</h1>
+    <div class="subtitle">Settings</div>
+  </div>
+  <div class="topbar-nav">
+    <a href="index.html">HOME</a>
+    <a href="archive.html">ARCHIVE</a>
+    <a href="settings.html" class="active">SETTINGS</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="settings-section">
+    <h3>WEATHER</h3>
+    <div class="settings-row">
+      <label>Temperature Unit</label>
+      <div class="settings-options" id="tempUnitOptions">
+        <button class="option-btn" data-value="C">Celsius</button>
+        <button class="option-btn" data-value="F">Fahrenheit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>APPEARANCE</h3>
+    <div class="settings-row">
+      <label>Color Theme</label>
+      <div class="settings-options" id="themeOptions">
+        <button class="option-btn" data-value="sky">Sky</button>
+        <button class="option-btn" data-value="sunset">Sunset</button>
+        <button class="option-btn" data-value="mint">Mint</button>
+        <button class="option-btn" data-value="lavender">Lavender</button>
+      </div>
+    </div>
+    <div class="settings-row">
+      <label>Must Do / Nice to Have Tag Style</label>
+      <div class="settings-options" id="tagStyleOptions">
+        <button class="option-btn" data-value="must-nice">Must Do / Nice to Have</button>
+        <button class="option-btn" data-value="priority-optional">Priority / Optional</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <h3>SOUND &amp; MUSIC</h3>
+    <div class="settings-row">
+      <label>Sound Effects</label>
+      <div class="toggle-switch" id="soundToggle"><div class="knob"></div></div>
+    </div>
+    <div class="settings-row">
+      <label>Background Chiptune Music</label>
+      <div class="toggle-switch" id="musicToggle"><div class="knob"></div></div>
+    </div>
+    <div class="settings-row" id="spotifyConnectRow">
+      <label>Spotify</label>
+      <button class="spotify-btn" id="spotifyConnectBtn">🎵 Connect Spotify</button>
+    </div>
+    <div class="settings-row" id="spotifyConnectedRow" style="display:none;">
+      <div class="spotify-connected-chip">🎵 Spotify Connected</div>
+      <button class="spotify-btn disconnect" id="spotifyDisconnectBtn">DISCONNECT</button>
+    </div>
+    <p style="font-size:13px;color:var(--ink-soft);margin-top:10px;">Once connected, a small floating music icon appears in the top-right corner of every page. Click it, then "Open Player" to launch a separate player window where you search for songs and browse your playlists. Keep that window open in the background and it will keep playing no matter where you click around Ally Trips, since it lives outside the page you're navigating. Requires Spotify Premium.</p>
+    <p style="font-size:12px;color:var(--ink-soft);margin-top:8px;">Good to know: if your browser blocks the player window as a popup, allow popups for this site once and it'll open normally after that.</p>
+  </div>
+
+  <div class="settings-section">
+    <h3>SPRITE CHARACTERS</h3>
+    <p style="font-size:13px;color:var(--ink-soft);">These pixel sprites are available when adding a companion to a trip. You can also upload a photo of your friend or just pick any emoji instead, right from the Add Companion screen on a trip.</p>
+    <div class="identity-list" id="spriteGallery"></div>
+  </div>
+
+  <div class="settings-section">
+    <h3>ARCHIVE MANAGEMENT</h3>
+    <div class="settings-row">
+      <label>View your completed trips</label>
+      <a href="archive.html" class="btn">VIEW ARCHIVE</a>
+    </div>
+  </div>
+
+</div>
+
+<img src="assets/sprites/walk_frame_1.png" class="mascot" id="mascotImg" alt="traveler mascot">
+
+<div class="toast" id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/spotify-config.js"></script>
+<script src="js/spotify-auth.js"></script>
+<script src="js/spotify-player.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>

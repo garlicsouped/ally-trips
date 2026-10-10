@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ally Trips - Connecting Spotify</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container" style="display:flex;align-items:center;justify-content:center;min-height:70vh;">
+  <div class="trip-hero" style="max-width:420px;text-align:center;">
+    <h2 class="pixel-font" style="font-size:16px;" id="statusTitle">CONNECTING...</h2>
+    <p id="statusMessage" style="font-size:14px;color:var(--ink-soft);margin-top:14px;">Hang tight while we finish connecting your Spotify account.</p>
+    <a href="settings.html" class="btn primary" style="display:none;margin-top:20px;" id="backBtn">BACK TO SETTINGS</a>
+  </div>
+</div>
+
+<script src="js/spotify-config.js"></script>
+<script src="js/spotify-auth.js"></script>
+<script>
+(async () => {
+  const result = await spotifyHandleCallback();
+  const title = document.getElementById('statusTitle');
+  const message = document.getElementById('statusMessage');
+  const backBtn = document.getElementById('backBtn');
+
+  if (result.success) {
+    title.textContent = 'CONNECTED!';
+    message.textContent = 'Your Spotify account is linked. Redirecting you back to Settings...';
+    setTimeout(() => {
+      window.location.href = 'settings.html';
+    }, 1200);
+  } else {
+    title.textContent = 'CONNECTION FAILED';
+    message.textContent = result.error || 'Something went wrong connecting to Spotify.';
+    backBtn.style.display = 'inline-block';
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ally Trips - Trip Detail</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1 class="pixel-font">ALLY TRIPS</h1>
+    <div class="subtitle" id="tripSubtitle">Trip detail</div>
+  </div>
+  <div class="topbar-nav">
+    <a href="index.html">HOME</a>
+    <a href="archive.html">ARCHIVE</a>
+    <a href="settings.html">SETTINGS</a>
+  </div>
+</div>
+
+<div class="container">
+  <a href="index.html" class="back-link">&larr; BACK TO ALL TRIPS</a>
+
+  <div class="trip-hero" id="tripHero">
+    <!-- injected -->
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="itinerary">ITINERARY</button>
+    <button class="tab-btn" data-tab="flights">FLIGHTS</button>
+    <button class="tab-btn" data-tab="companions">COMPANIONS</button>
+    <button class="tab-btn" data-tab="files">FILES</button>
+  </div>
+
+  <div class="tab-panel active" id="panel-itinerary">
+    <div id="dayList"></div>
+  </div>
+
+  <div class="tab-panel" id="panel-flights">
+    <div id="flightList"></div>
+    <button class="add-flight-btn" id="addFlightBtn">+ ADD FLIGHT</button>
+  </div>
+
+  <div class="tab-panel" id="panel-companions">
+    <div id="companionList"></div>
+    <button class="add-item-btn" id="addCompanionBtn">+ ADD COMPANION</button>
+  </div>
+
+  <div class="tab-panel" id="panel-files">
+    <div id="fileList"></div>
+    <button class="add-item-btn" id="addFileBtn">+ ADD REFERENCE FILE</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <img id="lightboxImg" src="" alt="enlarged photo">
+</div>
+
+<!-- Add / Edit Itinerary Item Modal -->
+<div class="modal-overlay" id="itemModal">
+  <div class="modal-box">
+    <h3>ADD ITINERARY ITEM</h3>
+    <label>Time</label>
+    <input type="time" id="itemTime">
+    <label>Title</label>
+    <input type="text" id="itemTitle" placeholder="What are you doing?">
+    <label>Location</label>
+    <input type="text" id="itemLocation" placeholder="Where?">
+    <label>Notes</label>
+    <textarea id="itemNotes" rows="2" placeholder="Any notes or links"></textarea>
+    <label>Flexibility</label>
+    <select id="itemFlex">
+      <option value="must">Must do</option>
+      <option value="nice">Nice to have</option>
+    </select>
+    <label>Attach a Photo (ticket, hotel confirmation, screenshot, etc)</label>
+    <input type="file" id="itemPhotoInput" accept="image/*">
+    <div id="itemPhotoPreview"></div>
+    <label>Add a Link (TikTok links will show as a playable video)</label>
+    <input type="text" id="itemLinkInput" placeholder="Paste a TikTok link or any URL">
+    <div class="modal-actions">
+      <button class="btn" id="cancelItemBtn">CANCEL</button>
+      <button class="btn primary" id="saveItemBtn">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Flight Modal -->
+<div class="modal-overlay" id="flightModal">
+  <div class="modal-box">
+    <h3 id="flightModalTitle">ADD FLIGHT</h3>
+    <label>Airline</label>
+    <input type="text" id="flightAirline" placeholder="e.g. ANA">
+    <label>Flight Number</label>
+    <input type="text" id="flightNumber" placeholder="e.g. NH 847">
+    <label>From</label>
+    <input type="text" id="flightFrom" placeholder="e.g. SIN">
+    <label>To</label>
+    <input type="text" id="flightTo" placeholder="e.g. KIX">
+    <label>Departure Date and Time</label>
+    <input type="datetime-local" id="flightDepart">
+    <label>Arrival Date and Time</label>
+    <input type="datetime-local" id="flightArrive">
+    <label>Confirmation Code</label>
+    <input type="text" id="flightConfirmation" placeholder="e.g. ZQ7F2A">
+    <label>Attach a Photo (boarding pass, e-ticket, screenshot, etc)</label>
+    <input type="file" id="flightPhotoInput" accept="image/*">
+    <div id="flightPhotoPreview"></div>
+    <div class="modal-actions">
+      <button class="btn" id="cancelFlightBtn">CANCEL</button>
+      <button class="btn primary" id="saveFlightBtn">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Trip Details Modal -->
+<div class="modal-overlay" id="editTripModal">
+  <div class="modal-box">
+    <h3>EDIT TRIP DETAILS</h3>
+    <label>Trip Name</label>
+    <input type="text" id="editTripName">
+    <label>Destination</label>
+    <input type="text" id="editTripDestination">
+    <label>Start Date</label>
+    <input type="date" id="editTripStart">
+    <label>End Date</label>
+    <input type="date" id="editTripEnd">
+    <label>Cover Emoji</label>
+    <input type="text" id="editTripEmoji" maxlength="4">
+    <div class="modal-actions">
+      <button class="btn" id="cancelEditTripBtn">CANCEL</button>
+      <button class="btn primary" id="saveEditTripBtn">SAVE CHANGES</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Companion Modal -->
+<div class="modal-overlay" id="companionModal">
+  <div class="modal-box">
+    <h3 id="companionModalTitle">ADD COMPANION</h3>
+    <label>Name</label>
+    <input type="text" id="companionName" placeholder="e.g. Natashia">
+
+    <label>Avatar</label>
+    <div class="tabs" style="margin-bottom:0;">
+      <button class="tab-btn avatar-tab-btn active" data-avatar-tab="sprite" style="font-size:10px;padding:8px 12px;">SPRITE</button>
+      <button class="tab-btn avatar-tab-btn" data-avatar-tab="photo" style="font-size:10px;padding:8px 12px;">UPLOAD PHOTO</button>
+      <button class="tab-btn avatar-tab-btn" data-avatar-tab="emoji" style="font-size:10px;padding:8px 12px;">EMOJI</button>
+    </div>
+
+    <div class="avatar-tab-panel active" id="avatarPanel-sprite">
+      <div class="identity-list" id="spriteChoices"></div>
+    </div>
+
+    <div class="avatar-tab-panel" id="avatarPanel-photo">
+      <label>Upload a photo</label>
+      <input type="file" id="companionPhotoInput" accept="image/*">
+      <div id="companionPhotoPreview"></div>
+    </div>
+
+    <div class="avatar-tab-panel" id="avatarPanel-emoji">
+      <label>Pick any emoji</label>
+      <input type="text" id="companionEmojiInput" placeholder="e.g. 😎" maxlength="4">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" id="cancelCompanionBtn">CANCEL</button>
+      <button class="btn primary" id="saveCompanionBtn">SAVE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Share Trip Modal -->
+<div class="modal-overlay" id="shareModal">
+  <div class="modal-box">
+    <h3>SHARE TRIP</h3>
+    <p style="font-size:13px;color:var(--ink-soft);">Share this link with your companions. When they open it they will pick their name to make edits, and everything they change will be tagged with their name.</p>
+    <div class="share-link-box">
+      <input type="text" id="shareLinkInput" readonly>
+      <button class="btn primary" id="copyShareLinkBtn">COPY</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="closeShareBtn">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/spotify-config.js"></script>
+<script src="js/spotify-auth.js"></script>
+<script src="js/spotify-player.js"></script>
+<script src="js/trip.js"></script>
+</body>
+</html>

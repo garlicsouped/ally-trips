@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ally Trips Player</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* This page is its own small popup window, not part of the
+     main site's navigation, so give it a simpler full-page
+     layout instead of the floating widget styling. */
+  body { padding: 16px; background: var(--cream); }
+  .player-window-wrap { max-width: 400px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<div class="player-window-wrap">
+  <h2 class="pixel-font" style="font-size:14px;margin-bottom:14px;">🎵 ALLY TRIPS PLAYER</h2>
+  <p style="font-size:12px;color:var(--ink-soft);margin-bottom:16px;">Keep this window open in the background, it will keep playing no matter where you go in Ally Trips.</p>
+
+  <div class="sp-now-playing">
+    <img id="spMiniCover" class="sp-mini-cover" alt="cover" src="">
+    <div class="sp-mini-info">
+      <div class="sp-mini-title" id="spMiniTitle">Not playing</div>
+      <div class="sp-mini-artist" id="spMiniArtist">Search below to play something</div>
+    </div>
+  </div>
+  <div class="sp-mini-progress-track"><div class="sp-mini-progress-fill" id="spMiniProgressFill"></div></div>
+  <div class="sp-mini-controls-row">
+    <button class="sp-mini-btn" id="spMiniPrev" title="Previous">⏮</button>
+    <button class="sp-mini-btn" id="spMiniPlayPause" title="Play/Pause">▶️</button>
+    <button class="sp-mini-btn" id="spMiniNext" title="Next">⏭</button>
+    <input type="range" id="spMiniVolume" min="0" max="100" value="50" class="sp-mini-volume" title="Volume">
+  </div>
+  <div class="sp-device-note" id="spDeviceNote"></div>
+
+  <div class="spotify-search-box">
+    <input type="text" id="spotifySearchInput" placeholder="Search for a song, artist, or playlist">
+    <button class="btn primary" id="spotifySearchBtn">GO</button>
+  </div>
+  <div id="spotifySearchResults" class="spotify-results"></div>
+  <div class="spotify-panel-subheading" id="spotifyPlaylistsHeading">YOUR PLAYLISTS</div>
+  <div id="spotifyPlaylistResults" class="spotify-results"></div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/spotify-config.js"></script>
+<script src="js/spotify-auth.js"></script>
+<script src="js/spotify-player-window.js"></script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+</body>
+</html>

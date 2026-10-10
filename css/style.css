@@ -1,0 +1,1418 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;500;600;700&display=swap');
+
+:root {
+  --sky: #bfe3f0;
+  --sky-deep: #8fd0e8;
+  --cream: #fdf6ec;
+  --cream-deep: #f5ead6;
+  --coral: #f2957e;
+  --coral-deep: #e87a60;
+  --mint: #a9d8c4;
+  --ink: #2e2a35;
+  --ink-soft: #5c5663;
+  --green-check: #8bbf87;
+  --shadow: #d8c9b0;
+}
+
+/* ===================== THEMES ===================== */
+body.theme-sunset {
+  --sky: #ffd9c2;
+  --sky-deep: #ffb98f;
+  --coral: #e8738f;
+  --coral-deep: #d4567a;
+  --mint: #f0c98a;
+}
+
+body.theme-mint {
+  --sky: #cdeedd;
+  --sky-deep: #9fdcc2;
+  --coral: #6fb98f;
+  --coral-deep: #4f9c71;
+  --mint: #bfe3c7;
+}
+
+body.theme-lavender {
+  --sky: #ddd4f0;
+  --sky-deep: #c2b2e8;
+  --coral: #a988d8;
+  --coral-deep: #8c67c2;
+  --mint: #d9c4ee;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: var(--sky);
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.5) 0, transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(255,255,255,0.4) 0, transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(255,255,255,0.3) 0, transparent 40%);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 17px;
+}
+
+.pixel-font {
+  font-family: 'Press Start 2P', cursive;
+}
+
+/* Decorative emojis are wrapped in this class so they render at
+   a readable size regardless of the surrounding pixel font size,
+   which is intentionally small for that retro look. */
+.emoji-inline {
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif;
+  font-size: 1.7em;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+.emoji-inline.sm { font-size: 1.3em; }
+.emoji-inline.lg { font-size: 2.2em; }
+
+a { text-decoration: none; color: inherit; }
+
+img { image-rendering: pixelated; }
+
+/* ===================== TOP BAR ===================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background: var(--cream);
+  border-bottom: 4px solid var(--ink);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.topbar h1 {
+  font-size: 22px;
+  margin: 0;
+  letter-spacing: 1px;
+  color: var(--coral-deep);
+}
+
+.topbar .subtitle {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.topbar-nav a {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 11px;
+  padding: 10px 14px;
+  border: 3px solid var(--ink);
+  background: var(--cream-deep);
+}
+
+.topbar-nav a:hover { background: var(--sky); }
+.topbar-nav a.active { background: var(--coral); color: var(--cream); }
+
+.icon-sm {
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+}
+
+/* ===================== LAYOUT ===================== */
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 36px 24px 90px;
+}
+
+.section-title {
+  font-size: 16px;
+  margin-bottom: 22px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===================== TRIP CARDS ===================== */
+.trip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 26px;
+}
+
+.trip-card {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  overflow: hidden;
+}
+
+.trip-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--shadow);
+}
+
+.trip-card:active {
+  transform: translate(0, 0);
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+
+.trip-card .emoji-badge {
+  font-size: 40px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.trip-card h3 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 15px;
+  margin: 0 0 12px 0;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.trip-card .destination {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+
+.trip-card .dates {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.companion-row {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: -6px;
+}
+
+.companion-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--cream-deep);
+  object-fit: cover;
+  margin-right: -8px;
+  background-size: cover;
+  background-position: center top;
+}
+
+.emoji-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+.status-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 10px;
+  font-family: 'Press Start 2P', cursive;
+  padding: 7px 9px;
+  border: 2px solid var(--ink);
+  background: var(--mint);
+}
+
+.status-tag.past {
+  background: #e3dcd0;
+}
+
+.countdown {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--coral-deep);
+  font-weight: 700;
+}
+
+.sparkle-hover {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.3s ease;
+}
+
+.trip-card:hover .sparkle-hover {
+  opacity: 1;
+}
+
+.sparkle-1 { top: 10px; left: 10px; }
+.sparkle-2 { bottom: 10px; right: 50px; }
+
+/* ===================== ADD TRIP BUTTON ===================== */
+.add-trip-card {
+  border: 4px dashed var(--ink);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  min-height: 170px;
+  transition: background 0.15s ease;
+}
+
+.add-trip-card:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+/* ===================== TRIP DETAIL ===================== */
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  border: 2px solid var(--ink);
+  background: var(--cream);
+  padding: 9px 14px;
+}
+
+.back-link:hover {
+  background: var(--coral);
+  color: var(--cream);
+}
+
+.trip-hero {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.trip-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.trip-hero h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  margin: 0 0 14px 0;
+}
+
+.trip-hero .meta {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===================== PROGRESS TRACKER ===================== */
+/* A real chunky pixel-style progress bar that fills up as the
+   trip gets closer, with a big plane emoji riding the leading
+   edge of the fill and a big flag emoji marking takeoff day. */
+.progress-journey {
+  position: relative;
+  margin-top: 18px;
+  background: var(--cream-deep);
+  border: 3px solid var(--ink);
+  padding: 18px 20px;
+}
+
+.progress-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.progress-bar-track {
+  position: relative;
+  flex: 1;
+  height: 34px;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  overflow: visible;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--coral);
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--coral) 0px, var(--coral) 10px,
+    var(--coral-deep) 10px, var(--coral-deep) 20px
+  );
+  background-size: 200% 100%;
+  animation: bar-shimmer 1.4s linear infinite;
+  transition: width 0.8s ease;
+  border-right: 3px solid var(--ink);
+}
+
+@keyframes bar-shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: -28px 0; }
+}
+
+.progress-bar-plane {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  transition: left 0.8s ease;
+  filter: drop-shadow(1px 1px 0 var(--ink));
+  z-index: 2;
+}
+
+.progress-bar-flag {
+  font-size: 2.1em;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.progress-bar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.progress-percent {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 13px;
+  color: var(--coral-deep);
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ===================== COMPANIONS IN HERO ===================== */
+.companions-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.companion-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.companion-chip img,
+.companion-chip-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--cream-deep);
+  object-fit: cover;
+}
+
+.companion-chip .emoji-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--cream-deep);
+  font-size: 1.8em;
+}
+
+.companion-chip span {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.add-companion-chip {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px dashed var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--ink-soft);
+  background: transparent;
+}
+
+.add-companion-chip:hover { background: rgba(255,255,255,0.5); }
+
+/* ===================== TABS ===================== */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  padding: 12px 18px;
+  border: 3px solid var(--ink);
+  background: var(--cream-deep);
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.tab-btn.active {
+  background: var(--coral);
+  color: var(--cream);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ===================== FLIGHTS ===================== */
+.flight-card {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  padding: 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.flight-card.done { opacity: 0.6; }
+
+.flight-card img.flight-icon { width: 38px; height: 38px; }
+
+.flight-info { flex: 1; }
+.flight-route {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.flight-detail-row {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.flight-last-edited {
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 6px;
+}
+
+.add-flight-btn {
+  font-size: 13px;
+  border: 2px dashed var(--ink);
+  background: transparent;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+.add-flight-btn:hover { background: rgba(255,255,255,0.5); }
+
+/* ===================== DAY BLOCKS ===================== */
+.day-block {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  margin-bottom: 18px;
+  box-shadow: 4px 4px 0 var(--shadow);
+  overflow: hidden;
+}
+
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  background: var(--cream-deep);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.day-header:hover { background: var(--sky); }
+
+.day-header .day-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 13px;
+}
+
+.day-header .day-progress-chip {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--coral-deep);
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  padding: 4px 8px;
+}
+
+.day-header .weather-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.weather-chip img { width: 26px; height: 26px; }
+
+.day-toggle-icon {
+  font-size: 15px;
+  transition: transform 0.2s ease;
+}
+
+.day-block.open .day-toggle-icon {
+  transform: rotate(90deg);
+}
+
+.day-items {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 20px;
+}
+
+.day-block.open .day-items {
+  max-height: 3000px;
+  padding: 12px 20px 20px;
+}
+
+.itinerary-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  cursor: grab;
+  transition: transform 0.1s ease;
+}
+
+.itinerary-item.nice {
+  border-style: dashed;
+}
+
+.itinerary-item.done {
+  opacity: 0.55;
+}
+
+.itinerary-item:active { cursor: grabbing; }
+
+.itinerary-item.dragging {
+  opacity: 0.5;
+}
+
+.itinerary-item .time-chip {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: var(--coral-deep);
+  min-width: 62px;
+  padding-top: 3px;
+}
+
+.itinerary-item .item-body { flex: 1; }
+.itinerary-item .item-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.itinerary-item .item-location {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.itinerary-item .item-notes {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.item-last-edited {
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 5px;
+}
+
+/* ---- item attachments: photo thumbnail + link/embed ---- */
+.item-photo-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 2px solid var(--ink);
+  margin-top: 8px;
+  cursor: pointer;
+  display: block;
+}
+
+.item-link-plain {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--coral-deep);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.item-tiktok-embed {
+  margin-top: 10px;
+  max-width: 290px;
+}
+
+.item-tiktok-embed iframe {
+  display: block;
+  border: 2px solid var(--ink);
+  max-width: 100%;
+}
+
+/* lightbox for enlarging an attached photo */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 42, 53, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+  padding: 24px;
+  cursor: zoom-out;
+}
+
+.lightbox-overlay.show { display: flex; }
+
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border: 4px solid var(--cream);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+}
+
+.flex-tag {
+  font-size: 10px;
+  padding: 4px 8px;
+  border: 1px solid var(--ink);
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.flex-tag.must { background: var(--coral); color: var(--cream); }
+.flex-tag.nice { background: transparent; border-style: dashed; color: var(--ink-soft); }
+
+.item-check {
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0.3;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  order: 3;
+  margin-left: auto;
+  align-self: center;
+}
+
+.item-check.done {
+  opacity: 1;
+}
+
+.item-check:hover { transform: scale(1.15); }
+
+/* Put time chip and body in their natural order, checkbox
+   always renders last thanks to order: 3 above */
+.itinerary-item .time-chip { order: 1; }
+.itinerary-item .item-body { order: 2; }
+.flight-card .flight-icon { order: 1; }
+.flight-card .flight-info { order: 2; }
+
+.item-edit-btn {
+  font-size: 10px;
+  padding: 6px 10px;
+  border: 2px solid var(--ink);
+  background: var(--cream-deep);
+  cursor: pointer;
+  margin-top: 8px;
+  margin-right: 6px;
+}
+
+.item-edit-btn:hover { background: var(--sky); }
+
+.add-item-btn {
+  font-size: 13px;
+  border: 2px dashed var(--ink);
+  background: transparent;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  margin-top: 8px;
+}
+
+.add-item-btn:hover { background: rgba(255,255,255,0.5); }
+
+/* ===================== FILES ===================== */
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* ===================== COMPANIONS TAB ===================== */
+.companion-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.companion-card img,
+.companion-card-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.companion-card .emoji-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  font-size: 1.6em;
+  flex-shrink: 0;
+}
+
+.avatar-tab-panel { display: none; margin-top: 12px; }
+.avatar-tab-panel.active { display: block; }
+
+.companion-card .companion-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.companion-card .companion-role {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* ===================== MASCOT (walk cycle) ===================== */
+/* Sits behind all page content, low opacity, so it never blocks
+   or clutters the itinerary or any interactive elements. */
+.mascot {
+  position: fixed;
+  bottom: 24px;
+  left: -80px;
+  width: 56px;
+  height: 56px;
+  animation: walk-across 20s linear infinite;
+  z-index: 0;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+@keyframes walk-across {
+  0% { left: -80px; }
+  100% { left: 110%; }
+}
+
+/* Make sure real content always sits above the background mascot */
+.topbar, .container, .modal-overlay, .identity-gate, .toast {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================== TOAST ===================== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 13px;
+  padding: 14px 20px;
+  border: 2px solid var(--coral);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  z-index: 100;
+  max-width: 320px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===================== MODAL ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 42, 53, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal-box {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+  padding: 26px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-box h3 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  margin-top: 0;
+}
+
+.modal-box label {
+  display: block;
+  font-size: 13px;
+  margin-top: 14px;
+  margin-bottom: 5px;
+  color: var(--ink-soft);
+}
+
+.modal-box input,
+.modal-box select,
+.modal-box textarea {
+  width: 100%;
+  padding: 9px 11px;
+  border: 2px solid var(--ink);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  background: #fff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.btn {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 11px;
+  padding: 12px 18px;
+  border: 3px solid var(--ink);
+  cursor: pointer;
+  background: var(--cream-deep);
+}
+
+.btn.primary {
+  background: var(--coral);
+  color: var(--cream);
+}
+
+.btn.danger {
+  background: #e08080;
+  color: var(--cream);
+}
+
+.btn.primary:hover { background: var(--coral-deep); }
+.btn:hover { background: var(--sky); }
+
+/* ===================== SHARE LINK BOX ===================== */
+.share-link-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.share-link-box input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid var(--ink);
+  font-size: 13px;
+  background: #fff;
+}
+
+/* ===================== IDENTITY GATE (shared view) ===================== */
+.identity-gate {
+  position: fixed;
+  inset: 0;
+  background: var(--sky);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 20px;
+}
+
+.identity-box {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+  padding: 30px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}
+
+.identity-box h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+.identity-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.identity-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px;
+  border: 3px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.identity-option:hover {
+  border-color: var(--ink);
+  background: var(--cream-deep);
+}
+
+.identity-option img,
+.identity-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  object-fit: cover;
+}
+
+.identity-option .emoji-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  font-size: 2em;
+}
+
+.identity-option span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ===================== SETTINGS PAGE ===================== */
+.settings-section {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  padding: 22px;
+  margin-bottom: 22px;
+}
+
+.settings-section h3 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 13px;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cream-deep);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.settings-row:last-child { border-bottom: none; }
+
+.settings-row label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.settings-options {
+  display: flex;
+  gap: 8px;
+}
+
+.option-btn {
+  font-size: 12px;
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
+  background: var(--cream-deep);
+  cursor: pointer;
+}
+
+.option-btn.active {
+  background: var(--coral);
+  color: var(--cream);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background: var(--ink-soft);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toggle-switch.on { background: var(--coral-deep); }
+
+.toggle-switch .knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  transition: left 0.2s ease;
+}
+
+.toggle-switch.on .knob { left: 25px; }
+
+.spotify-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1DB954;
+  color: white;
+  border: 2px solid var(--ink);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.spotify-btn:hover { background: #1aa34a; }
+
+.spotify-btn.disconnect { background: #e08080; }
+.spotify-btn.disconnect:hover { background: #d06060; }
+
+.spotify-connected-chip {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1DB954;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------------- SPOTIFY SEARCH PANEL ---------------- */
+.spotify-search-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.spotify-search-box input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid var(--ink);
+  font-size: 14px;
+}
+
+.spotify-results {
+  margin-top: 14px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.spotify-result-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 2px solid var(--ink);
+  margin-bottom: 8px;
+  background: var(--cream);
+  cursor: pointer;
+}
+
+.spotify-result-row:hover { background: var(--sky); }
+
+.spotify-result-row img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--ink);
+}
+
+.spotify-result-info { flex: 1; min-width: 0; }
+
+.spotify-result-name {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotify-result-subtitle {
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------------- FLOATING SPOTIFY WIDGET (top-right) ---------------- */
+/* A small floating circle sits in the top-right corner of every
+   page that loads spotify-player.js. Clicking it expands into a
+   full player + search + playlists panel below it, like a
+   chat-widget pattern, so it never gets in the way of the
+   itinerary or page content underneath. */
+.spotify-widget {
+  position: fixed;
+  top: 90px;
+  right: 24px;
+  z-index: 150;
+  display: none;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.spotify-widget.active { display: block; }
+
+.spotify-widget-collapsed {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1DB954;
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.spotify-widget-collapsed:hover { transform: scale(1.08); }
+
+.spotify-widget.open .spotify-widget-collapsed { display: none; }
+
+.spotify-widget-note {
+  font-size: 24px;
+}
+
+.sp-widget-cover-sm {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sp-widget-cover-sm[src=""] { display: none; }
+
+.spotify-widget-expanded {
+  display: none;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: 16px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.spotify-widget.open .spotify-widget-expanded { display: block; }
+
+.sp-widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.sp-widget-close {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.sp-now-playing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.sp-mini-cover {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+  background: var(--cream-deep);
+}
+
+.sp-mini-info { flex: 1; min-width: 0; }
+
+.sp-mini-title {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-mini-artist {
+  font-size: 11px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-mini-progress-track {
+  width: 100%;
+  height: 4px;
+  background: var(--cream-deep);
+  border: 1px solid var(--ink);
+  margin-bottom: 10px;
+}
+
+.sp-mini-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #1DB954;
+  transition: width 0.3s linear;
+}
+
+.sp-mini-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.sp-mini-btn {
+  background: var(--cream-deep);
+  border: 2px solid var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+.sp-mini-btn:hover { background: var(--sky); }
+
+.sp-mini-volume {
+  flex: 1;
+}
+
+.sp-device-note {
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-bottom: 12px;
+  min-height: 14px;
+}
+
+.sp-player-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--cream-deep);
+}
+
+.sp-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sp-status-dot.online { background: #1DB954; }
+.sp-status-dot.offline { background: #c9433f; }
+
+.spotify-panel-subheading {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  margin: 16px 0 10px;
+  color: var(--ink-soft);
+}
+
+/* ===================== ARCHIVE PAGE ===================== */
+.archive-note {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .trip-hero h2 { font-size: 16px; }
+  .tabs { flex-wrap: wrap; }
+  .topbar-nav a { font-size: 9px; padding: 8px 10px; }
+}

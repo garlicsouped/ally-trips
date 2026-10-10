@@ -13,7 +13,7 @@
    for the full picture on what this does and does not protect.
    ============================================================ */
 
-const ACCESS_CODE = 'ALLYTRIPS2026'; // <-- change this to your own code
+const ACCESS_CODE = 'allyisthebest'; // <-- change this to your own code
 const ACCESS_GRANTED_KEY = 'allyTripsAccessGranted';
 
 function isAccessGranted() {

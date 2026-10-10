@@ -45,4 +45,7 @@ function renderArchive() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', renderArchive);
+document.addEventListener('DOMContentLoaded', async () => {
+  await initDataLayer();
+  renderArchive();
+});

@@ -96,10 +96,40 @@ document.getElementById('saveNewTripBtn').addEventListener('click', () => {
   });
 
   closeNewTripModal();
-  showToast('Trip created! Opening it now');
+  showToast('Trip created! Its itinerary days are already filled in, opening it now');
   setTimeout(() => {
     window.location.href = `trip.html?id=${newTrip.id}`;
   }, 600);
 });
 
-document.addEventListener('DOMContentLoaded', renderDashboard);
+/* ---------------- LEGACY LOCALSTORAGE IMPORT ---------------- */
+/* If this browser has trips saved from before Supabase was
+   connected, offer a one click way to bring them into the real
+   database instead of just quietly losing them. */
+function offerLegacyImport() {
+  const legacyCount = getLegacyLocalTrips().length;
+  if (legacyCount === 0) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'trip-card add-trip-card';
+  banner.style.borderStyle = 'solid';
+  banner.textContent = `📥 IMPORT ${legacyCount} TRIP${legacyCount === 1 ? '' : 'S'} FROM THIS BROWSER`;
+  banner.addEventListener('click', async () => {
+    banner.textContent = 'IMPORTING...';
+    const count = await importLegacyTripsToSupabase();
+    showToast(count > 0
+      ? `Imported ${count} trip${count === 1 ? '' : 's'} from this browser`
+      : 'Nothing new to import');
+    renderDashboard();
+  });
+  document.getElementById('tripGrid').appendChild(banner);
+}
+
+/* ---------------- INIT ---------------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  await initDataLayer();
+  renderDashboard();
+  if (hasUnimportedLegacyTrips()) {
+    offerLegacyImport();
+  }
+});

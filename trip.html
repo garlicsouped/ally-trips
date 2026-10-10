@@ -144,29 +144,24 @@
     <h3 id="companionModalTitle">ADD COMPANION</h3>
     <label>Name</label>
     <input type="text" id="companionName" placeholder="e.g. Natashia">
-
     <label>Avatar</label>
     <div class="tabs" style="margin-bottom:0;">
       <button class="tab-btn avatar-tab-btn active" data-avatar-tab="sprite" style="font-size:10px;padding:8px 12px;">SPRITE</button>
       <button class="tab-btn avatar-tab-btn" data-avatar-tab="photo" style="font-size:10px;padding:8px 12px;">UPLOAD PHOTO</button>
       <button class="tab-btn avatar-tab-btn" data-avatar-tab="emoji" style="font-size:10px;padding:8px 12px;">EMOJI</button>
     </div>
-
     <div class="avatar-tab-panel active" id="avatarPanel-sprite">
       <div class="identity-list" id="spriteChoices"></div>
     </div>
-
     <div class="avatar-tab-panel" id="avatarPanel-photo">
       <label>Upload a photo</label>
       <input type="file" id="companionPhotoInput" accept="image/*">
       <div id="companionPhotoPreview"></div>
     </div>
-
     <div class="avatar-tab-panel" id="avatarPanel-emoji">
       <label>Pick any emoji</label>
       <input type="text" id="companionEmojiInput" placeholder="e.g. 😎" maxlength="4">
     </div>
-
     <div class="modal-actions">
       <button class="btn" id="cancelCompanionBtn">CANCEL</button>
       <button class="btn primary" id="saveCompanionBtn">SAVE</button>
@@ -180,7 +175,7 @@
     <h3>ADD DAY TO ITINERARY</h3>
     <label>Date</label>
     <input type="date" id="dayDateInput">
-    <label>Expected Weather (placeholder until live forecast is connected)</label>
+    <label>Expected Weather (placeholder until a live forecast is available for this date)</label>
     <select id="dayWeatherIcon">
       <option value="sun">Sunny</option>
       <option value="cloud">Cloudy</option>
@@ -208,9 +203,13 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/access-gate.js"></script>
 <script src="js/data.js"></script>
 <script src="js/common.js"></script>
 <script src="js/sound.js"></script>
+<script src="js/weather.js"></script>
 <script src="js/spotify-config.js"></script>
 <script src="js/spotify-auth.js"></script>
 <script src="js/spotify-player.js"></script>
